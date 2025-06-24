@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:ajivika/loginpage/Phone_Number_page.dart';
 import 'package:ajivika/loginpage/choosing_page.dart';
 import 'package:ajivika/main.dart';
 import 'package:flutter/cupertino.dart';
@@ -16,7 +17,7 @@ class _splash_screenState extends State<splash_screen> {
 @override
   void initState() {
     Timer(Duration(seconds: 5), (){
-      Navigator.pushReplacement((context), MaterialPageRoute(builder: (context)=>choosing_page()));
+      Navigator.pushReplacement((context), MaterialPageRoute(builder: (context)=>Phone_Number_Page()));
     });
   }
   @override
