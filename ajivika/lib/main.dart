@@ -1,3 +1,5 @@
+import 'package:ajivika/Homepage/homepage.dart';
+import 'package:ajivika/Homepage/homepage_provider.dart';
 import 'package:ajivika/bottom_navbar/bottom_navbar.dart';
 import 'package:ajivika/languagepage/language_page.dart';
 import 'package:ajivika/languagepage/language_page_provider.dart';
@@ -30,6 +32,7 @@ Future<void> main() async {
         ChangeNotifierProvider(create: (context) => ChoosingPageProvider()),
         ChangeNotifierProvider(create: (context) => OTPpageprovider()),
         ChangeNotifierProvider(create: (context) => PhoneNoProvider()),
+        ChangeNotifierProvider(create: (context) => HomepageProvider()),
       ],
       child: MyApp(MyLang: MyLang, MyCountry: MyCountry),
     ),
@@ -50,7 +53,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Color(0xff1076e5)),
       ),
-      home: splash_screen(),
+      home: bottom_navbar(),
     );
   }
 }

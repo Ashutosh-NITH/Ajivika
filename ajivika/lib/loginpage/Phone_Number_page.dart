@@ -173,6 +173,7 @@ class Phone_Number_Page extends StatelessWidget {
                                 OTP_Page(PhoneNumber: E16Formatnumber),
                           ),
                         );
+                        provider.offlaoding();
                       } else {
                         provider.offlaoding();
                         print("error");
