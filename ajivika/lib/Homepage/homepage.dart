@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:ajivika/Homepage/homepage_provider.dart';
+import 'package:ajivika/database/remote/jobdataDB.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
@@ -135,6 +136,21 @@ class _homepageState extends State<homepage> {
     );
   }
 
+  List<Map<String, dynamic>> AllJobs = [];
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      setinitialjobs();
+    });
+  }
+
+  Future<void> setinitialjobs() async {
+    AllJobs = await JobDB().AllJobPinPoints;
+    setState(() {});
+    print("Fetched jobs: $AllJobs");
+  }
+
   @override
   Widget build(BuildContext context) {
     return Consumer<HomepageProvider>(
@@ -231,7 +247,7 @@ class _homepageState extends State<homepage> {
                       subdomains: ['a', 'b', 'c'],
                     ),
                     MarkerLayer(
-                      markers: provider.AllJobPinPoints.map((markers) {
+                      markers: AllJobs.map((markers) {
                         return Marker(
                           height: 80,
                           width: 80,

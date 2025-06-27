@@ -18,7 +18,7 @@ class _bottom_navbarState extends State<bottom_navbar> {
   void changepage(int index) {
     setState(() {
       selected_index = index;
-      pageController.jumpToPage(index);
+      pageController.jumpToPage(selected_index);
     });
   }
 
@@ -26,6 +26,10 @@ class _bottom_navbarState extends State<bottom_navbar> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: PageView(
+        onPageChanged: (index) {
+          selected_index = index;
+          setState(() {});
+        },
         controller: pageController,
         children: [WorkerSectionPage(), homepage(), ProfilePage()],
       ),

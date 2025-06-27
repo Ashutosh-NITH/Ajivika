@@ -13,7 +13,6 @@ import '../languagepage/language_page.dart';
 class Phone_Number_Page extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    TextEditingController PhoneNumberController = TextEditingController();
     return Scaffold(
       body: Column(
         children: [
@@ -122,32 +121,37 @@ class Phone_Number_Page extends StatelessWidget {
 
           Container(color: Colors.white, height: 10),
 
-          Expanded(
-            child: Container(
-              margin: EdgeInsets.only(top: 40.0, left: 20.0, right: 20.0),
-              child: TextField(
-                keyboardType: TextInputType.phone,
-                inputFormatters: [
-                  FilteringTextInputFormatter.digitsOnly,
-                  LengthLimitingTextInputFormatter(10),
-                ],
-
-                controller: PhoneNumberController,
-                decoration: InputDecoration(
-                  label: Text("Phone Number".tr),
-                  hintText: "Phone Number".tr,
-                  prefixText: "+91    ",
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(20),
-                    borderSide: BorderSide(color: Color(0xff2667FF)),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(20),
-                    borderSide: BorderSide(color: Color(0xff2667FF)),
+          Consumer<PhoneNoProvider>(
+            builder: (ctx, provider, __) {
+              return Expanded(
+                child: Container(
+                  margin: EdgeInsets.only(top: 40.0, left: 20.0, right: 20.0),
+                  child: TextField(
+                    keyboardType: TextInputType.phone,
+                    inputFormatters: [
+                      FilteringTextInputFormatter.digitsOnly,
+                      LengthLimitingTextInputFormatter(10),
+                    ],
+                    onChanged: (value) {
+                      provider.setno(value);
+                    },
+                    decoration: InputDecoration(
+                      label: Text("Phone Number".tr),
+                      hintText: "Phone Number".tr,
+                      prefixText: "+91    ",
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20),
+                        borderSide: BorderSide(color: Color(0xff2667FF)),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20),
+                        borderSide: BorderSide(color: Color(0xff2667FF)),
+                      ),
+                    ),
                   ),
                 ),
-              ),
-            ),
+              );
+            },
           ),
           //submit button
           Consumer<PhoneNoProvider>(
@@ -158,7 +162,7 @@ class Phone_Number_Page extends StatelessWidget {
                 child: ElevatedButton(
                   onPressed: () async {
                     provider.onloading();
-                    var number = PhoneNumberController.text.trim();
+                    var number = provider.number.toString().trim();
                     if (number.length == 10) {
                       String E16Formatnumber = "+91$number";
                       print(E16Formatnumber);
@@ -166,7 +170,7 @@ class Phone_Number_Page extends StatelessWidget {
                         PhoneNumber: E16Formatnumber,
                       );
                       if (sent) {
-                        Navigator.pushReplacement(
+                        Navigator.push(
                           (context),
                           MaterialPageRoute(
                             builder: (context) =>
@@ -201,7 +205,9 @@ class Phone_Number_Page extends StatelessWidget {
                   style: ElevatedButton.styleFrom(
                     backgroundColor: provider.sendotploading
                         ? Color(0xff87BFFF)
-                        : Color(0xff2667FF),
+                        : provider.checkno()
+                        ? Color(0xff2667FF)
+                        : Color(0xff87BFFF),
                     foregroundColor: Colors.white,
                   ),
                   child: Row(
@@ -209,7 +215,7 @@ class Phone_Number_Page extends StatelessWidget {
                     children: [
                       Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: ctx.read<PhoneNoProvider>().sendotploading
+                        child: ctx.watch<PhoneNoProvider>().sendotploading
                             ? LoadingAnimationWidget.flickr(
                                 size: 20,
                                 leftDotColor: Colors.white,

@@ -4,6 +4,7 @@ import 'package:ajivika/bottom_navbar/bottom_navbar.dart';
 import 'package:ajivika/languagepage/language_page.dart';
 import 'package:ajivika/languagepage/language_page_provider.dart';
 import 'package:ajivika/loginpage/choosing_page.dart';
+import 'package:ajivika/loginpage/enter_name_page.dart';
 import 'package:ajivika/loginpage/loginpage_provider.dart';
 import 'package:ajivika/splash_screen/splash_screen.dart';
 import 'package:flutter/material.dart';
@@ -30,9 +31,9 @@ Future<void> main() async {
       providers: [
         ChangeNotifierProvider(create: (context) => language_page_provider()),
         ChangeNotifierProvider(create: (context) => ChoosingPageProvider()),
-        ChangeNotifierProvider(create: (context) => OTPpageprovider()),
         ChangeNotifierProvider(create: (context) => PhoneNoProvider()),
         ChangeNotifierProvider(create: (context) => HomepageProvider()),
+        ChangeNotifierProvider(create: (context) => NamePageProvider()),
       ],
       child: MyApp(MyLang: MyLang, MyCountry: MyCountry),
     ),
@@ -53,7 +54,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Color(0xff1076e5)),
       ),
-      home: bottom_navbar(),
+      home: splash_screen(),
     );
   }
 }
