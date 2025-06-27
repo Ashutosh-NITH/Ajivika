@@ -1,16 +1,14 @@
 import 'dart:convert';
-import 'package:ajivika/Homepage/homepage_provider.dart';
-import 'package:ajivika/database/remote/jobdataDB.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
-import 'package:http/http.dart' as http;
 import 'package:latlong2/latlong.dart';
 import 'package:provider/provider.dart';
-import '../languagepage/language_page.dart';
+import '../../database/remoteDB/jobdataDB.dart';
+import '../../languagepage/language_page.dart';
+import 'homepage_provider.dart';
 
 class homepage extends StatefulWidget {
   @override

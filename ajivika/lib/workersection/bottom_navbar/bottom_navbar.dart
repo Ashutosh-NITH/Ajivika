@@ -1,18 +1,16 @@
-import 'package:ajivika/Homepage/homepage.dart';
 import 'package:ajivika/Profilepage/ProfilePage.dart';
-import 'package:ajivika/languagepage/language_page.dart';
-import 'package:ajivika/loginpage/choosing_page.dart';
 import 'package:ajivika/workersection/WorkerSection.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import '../Homepage/homepage.dart';
 
-class bottom_navbar extends StatefulWidget {
+class worker_bottom_navbar extends StatefulWidget {
   @override
-  State<bottom_navbar> createState() => _bottom_navbarState();
+  State<worker_bottom_navbar> createState() => _bottom_navbarState();
 }
 
-class _bottom_navbarState extends State<bottom_navbar> {
+class _bottom_navbarState extends State<worker_bottom_navbar> {
   int selected_index = 1;
   PageController pageController = PageController();
   void changepage(int index) {
@@ -31,7 +29,7 @@ class _bottom_navbarState extends State<bottom_navbar> {
           setState(() {});
         },
         controller: pageController,
-        children: [WorkerSectionPage(), homepage(), ProfilePage()],
+        children: [JobAppliedHistoryPage(), homepage(), ProfilePage()],
       ),
       bottomNavigationBar: BottomNavigationBar(
         items: [

@@ -1,6 +1,7 @@
 import 'package:ajivika/loginpage/AuthenticationPage.dart';
 import 'package:ajivika/loginpage/Phone_Number_page.dart';
 import 'package:ajivika/loginpage/loginpage_provider.dart';
+import 'package:ajivika/main.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
@@ -9,6 +10,7 @@ import 'package:get/get.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../languagepage/language_page.dart';
 import 'choosing_page.dart';
@@ -143,12 +145,6 @@ class _OTP_PageState extends State<OTP_Page> {
                   SizedBox(width: 10),
                   InkWell(
                     onTap: () {
-                      // Navigator.pushReplacement(
-                      //   (context),
-                      //   MaterialPageRoute(
-                      //     builder: (context) => Phone_Number_Page(),
-                      //   ),
-                      // );
                       Navigator.pop(context);
                     },
                     child: Icon(Icons.edit, color: Colors.green),
@@ -198,8 +194,8 @@ class _OTP_PageState extends State<OTP_Page> {
                     PhoneNumber: widget.PhoneNumber,
                     OTP: OTP,
                   );
-
                   if (check) {
+                    context.read<PhoneNoProvider>().finalisenumber();
                     Navigator.pushReplacement(
                       (context),
                       MaterialPageRoute(builder: (context) => choosing_page()),

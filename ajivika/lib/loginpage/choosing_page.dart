@@ -62,7 +62,6 @@ class choosing_page extends StatelessWidget {
                           InkWell(
                             onTap: () {
                               provider.emptyprofession();
-
                               Navigator.push(
                                 (context),
                                 MaterialPageRoute(
@@ -139,6 +138,7 @@ class choosing_page extends StatelessWidget {
                   child: ElevatedButton(
                     onPressed: () {
                       if (provider.selected_profession.isNotEmpty) {
+                        provider.finaliseprofession();
                         Navigator.pushReplacement(
                           (context),
                           MaterialPageRoute(

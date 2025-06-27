@@ -1,12 +1,9 @@
-import 'package:ajivika/Homepage/homepage.dart';
-import 'package:ajivika/Homepage/homepage_provider.dart';
-import 'package:ajivika/bottom_navbar/bottom_navbar.dart';
-import 'package:ajivika/languagepage/language_page.dart';
+import 'package:ajivika/Profilepage/ProfilePage.dart';
+import 'package:ajivika/Profilepage/ProfilePageProvider.dart';
 import 'package:ajivika/languagepage/language_page_provider.dart';
-import 'package:ajivika/loginpage/choosing_page.dart';
-import 'package:ajivika/loginpage/enter_name_page.dart';
 import 'package:ajivika/loginpage/loginpage_provider.dart';
 import 'package:ajivika/splash_screen/splash_screen.dart';
+import 'package:ajivika/workersection/Homepage/homepage_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
@@ -34,6 +31,7 @@ Future<void> main() async {
         ChangeNotifierProvider(create: (context) => PhoneNoProvider()),
         ChangeNotifierProvider(create: (context) => HomepageProvider()),
         ChangeNotifierProvider(create: (context) => NamePageProvider()),
+        ChangeNotifierProvider(create: (context) => ProfilePageProvider()),
       ],
       child: MyApp(MyLang: MyLang, MyCountry: MyCountry),
     ),
@@ -41,6 +39,11 @@ Future<void> main() async {
 }
 
 class MyApp extends StatelessWidget {
+  static final ISVERIFIEDKEY = "isverified";
+  static final ISLOGGEDKEY = "islogggedin";
+  static final USERPHONEKEY = "UserPhoneNumber";
+  static final USERNAMEKEY = "UserName";
+  static final USER_PROFESSION_KEY = "UserPro";
   final String MyLang;
   final String MyCountry;
   MyApp({required this.MyLang, required this.MyCountry});
