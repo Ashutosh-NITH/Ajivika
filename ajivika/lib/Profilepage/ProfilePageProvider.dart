@@ -3,9 +3,9 @@ import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ProfilePageProvider extends ChangeNotifier {
-  String _name = "Ashutosh Kumar";
-  String _profession = "Worker";
-  String _phone = "919229258016";
+  String _name = "";
+  String _profession = "";
+  String _phone = "";
   String get name => _name;
   String get profession => _profession;
   String get phone => _phone;
