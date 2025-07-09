@@ -151,6 +151,7 @@ class EnterNamePage extends StatelessWidget {
               onPressed: () async {
                 if (context.read<NamePageProvider>().checkstring()) {
                   context.read<NamePageProvider>().finalisename();
+                  context.read<NamePageProvider>().SaveProfile();
                   Navigator.pushReplacement(
                     (context),
                     MaterialPageRoute(

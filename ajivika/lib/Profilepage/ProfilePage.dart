@@ -1,4 +1,5 @@
 import 'package:ajivika/Profilepage/ProfilePageProvider.dart';
+import 'package:ajivika/Profilepage/editprofile.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -6,12 +7,24 @@ import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import '../languagepage/language_page.dart';
 
-class ProfilePage extends StatelessWidget {
+class ProfilePage extends StatefulWidget {
+  @override
+  State<ProfilePage> createState() => _ProfilePageState();
+}
+
+class _ProfilePageState extends State<ProfilePage> {
+  @override
+  void initState() {
+    super.initState();
+    Future.microtask(() {
+      context.read<ProfilePageProvider>().initiliseinfo();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Consumer<ProfilePageProvider>(
       builder: (ctx, provider, __) {
-        provider.initiliseinfo();
         return Scaffold(
           body: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -88,19 +101,93 @@ class ProfilePage extends StatelessWidget {
               Container(color: Colors.white, height: 40),
               Container(
                 margin: EdgeInsets.only(top: 30.0),
-                child: CircleAvatar(
-                  backgroundImage: AssetImage("assets/images/user.png"),
-                  minRadius: 60,
-                  maxRadius: 60,
+                child: Stack(
+                  children: [
+                    CircleAvatar(
+                      backgroundImage: provider.imageurl.isNotEmpty
+                          ? NetworkImage(provider.imageurl)
+                          : AssetImage("assets/images/user.png"),
+                      minRadius: 60,
+                      maxRadius: 60,
+                    ),
+                    Positioned(
+                      right: 0,
+                      bottom: 0,
+                      child: CircleAvatar(
+                        child: GestureDetector(
+                          onTap: () {
+                            showDialog(
+                              context: (context),
+                              builder: (context) {
+                                return AlertDialog(
+                                  content: Text(
+                                    "Are  you sure you want to delete your profile image",
+                                  ),
+                                  actions: [
+                                    OutlinedButton(
+                                      onPressed: () async {
+                                        await provider.DeleteProfileImage()
+                                            ? (ScaffoldMessenger.of(
+                                                context,
+                                              ).showSnackBar(
+                                                SnackBar(
+                                                  content: Text(
+                                                    "image deleted successfully",
+                                                  ),
+                                                ),
+                                              ))
+                                            : (ScaffoldMessenger.of(
+                                                context,
+                                              ).showSnackBar(
+                                                SnackBar(
+                                                  content: Text(
+                                                    "error while deleting image ! TRY AGAIN !",
+                                                  ),
+                                                ),
+                                              ));
+
+                                        Navigator.pop(context);
+                                      },
+                                      child: Text(
+                                        "Yes",
+                                        style: TextStyle(color: Colors.red),
+                                      ),
+                                    ),
+                                    OutlinedButton(
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                      child: Text("No"),
+                                    ),
+                                  ],
+                                );
+                              },
+                            );
+                          },
+                          child: Icon(
+                            Icons.delete_rounded,
+                            color: Colors.blueGrey,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
-              Text(
-                "Upload Photo",
-                style: TextStyle(
-                  fontFamily: "Poppins",
-                  fontSize: 15,
-                  fontWeight: FontWeight.w600,
-                  color: Color(0xff2667FF),
+              SizedBox(height: 10),
+              //upload photo
+              GestureDetector(
+                onTap: () {
+                  provider.UploadImage();
+                },
+                child: Text(
+                  "Upload Photo",
+                  style: TextStyle(
+                    fontFamily: "Poppins",
+                    fontSize: 15,
+                    fontWeight: FontWeight.w600,
+                    color: Color(0xff2667FF),
+                  ),
                 ),
               ),
               SizedBox(height: 15),
@@ -144,7 +231,14 @@ class ProfilePage extends StatelessWidget {
                                 fontWeight: FontWeight.w600,
                               ),
                             ),
-                            Icon(Icons.edit),
+
+                            //edit name
+                            GestureDetector(
+                              onTap: () {
+                                showcustombottomsheet(context);
+                              },
+                              child: Icon(Icons.edit),
+                            ),
                           ],
                         ),
                       ),
@@ -174,7 +268,6 @@ class ProfilePage extends StatelessWidget {
                                 fontWeight: FontWeight.w600,
                               ),
                             ),
-                            Icon(Icons.edit),
                           ],
                         ),
                       ),
@@ -222,13 +315,46 @@ class ProfilePage extends StatelessWidget {
               ),
 
               SizedBox(height: 10),
-              Text(
-                "Log Out",
-                style: TextStyle(
-                  fontFamily: "Poppins",
-                  fontSize: 15,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.redAccent,
+
+              //logout
+              GestureDetector(
+                onTap: () {
+                  showDialog(
+                    context: (context),
+                    builder: (context) {
+                      return AlertDialog(
+                        content: Text(
+                          "Are you sure you want to log out ? It will remove your data from this device , but you can acccess it again using your phone number !",
+                        ),
+                        actions: [
+                          OutlinedButton(
+                            onPressed: () {
+                              provider.LogOut(context);
+                            },
+                            child: Text(
+                              "Yes",
+                              style: TextStyle(color: Colors.redAccent),
+                            ),
+                          ),
+                          OutlinedButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            child: Text("No"),
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                },
+                child: Text(
+                  "Log Out",
+                  style: TextStyle(
+                    fontFamily: "Poppins",
+                    fontSize: 15,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.redAccent,
+                  ),
                 ),
               ),
             ],

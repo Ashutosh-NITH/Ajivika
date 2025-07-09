@@ -1,8 +1,12 @@
+import 'package:ajivika/workersection/bottom_navbar/bottom_navbar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../main.dart';
+import 'OTP_Page.dart';
+import 'choosing_page.dart';
 
 class ChoosingPageProvider extends ChangeNotifier {
   String _selected_profession = "";
@@ -31,7 +35,37 @@ class PhoneNoProvider extends ChangeNotifier {
   Future<void> finalisenumber() async {
     var pref = await SharedPreferences.getInstance();
     pref.setBool(MyApp.ISVERIFIEDKEY, true);
-    pref.setString(MyApp.USERPHONEKEY, number);
+    pref.setString(MyApp.USERPHONEKEY, '91${number}');
+  }
+
+  Future<void> CheckProfile(BuildContext context) async {
+    var pref = await SharedPreferences.getInstance();
+    final usernumber = pref.getString(MyApp.USERPHONEKEY);
+    final supabase = Supabase.instance.client;
+    final profile = await supabase
+        .from('profiles')
+        .select()
+        .eq('phone', usernumber!)
+        .maybeSingle();
+    print("what are we getting : $profile");
+    if (profile == null) {
+      Navigator.pushReplacement(
+        (context),
+        MaterialPageRoute(builder: (context) => choosing_page()),
+      );
+    } else {
+      pref.setBool(MyApp.ISLOGGEDKEY, true);
+      pref.setString(MyApp.USERNAMEKEY, profile['fullname']);
+      pref.setString(MyApp.USER_PROFESSION_KEY, profile['profession']);
+      if (profile['profession'] == 'Worker') {
+        Navigator.pushReplacement(
+          (context),
+          MaterialPageRoute(builder: (context) => worker_bottom_navbar()),
+        );
+      } else {
+        print("Contracter");
+      }
+    }
   }
 
   void setno(String value) {
@@ -82,6 +116,23 @@ class NamePageProvider extends ChangeNotifier {
     } else {
       return false;
     }
-    notifyListeners();
+  }
+
+  Future<void> SaveProfile() async {
+    var pref = await SharedPreferences.getInstance();
+    final name = await pref.get(MyApp.USERNAMEKEY);
+    final phone = await pref.get(MyApp.USERPHONEKEY);
+    final profession = await pref.get(MyApp.USER_PROFESSION_KEY);
+    final supabase = Supabase.instance.client;
+    final response = await supabase.from('profiles').insert({
+      'fullname': name,
+      'phone': phone,
+      'profession': profession,
+    });
+    if (response.error != null) {
+      print('Insert Error: ${response.error!.message}');
+    } else {
+      print('Insert Success: ${response.data}');
+    }
   }
 }

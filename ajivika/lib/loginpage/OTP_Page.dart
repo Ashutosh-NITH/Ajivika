@@ -2,6 +2,7 @@ import 'package:ajivika/loginpage/AuthenticationPage.dart';
 import 'package:ajivika/loginpage/Phone_Number_page.dart';
 import 'package:ajivika/loginpage/loginpage_provider.dart';
 import 'package:ajivika/main.dart';
+import 'package:ajivika/workersection/bottom_navbar/bottom_navbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
@@ -196,10 +197,11 @@ class _OTP_PageState extends State<OTP_Page> {
                   );
                   if (check) {
                     context.read<PhoneNoProvider>().finalisenumber();
-                    Navigator.pushReplacement(
-                      (context),
-                      MaterialPageRoute(builder: (context) => choosing_page()),
-                    );
+                    context.read<PhoneNoProvider>().CheckProfile(context);
+                    // Navigator.pushReplacement(
+                    //   (context),
+                    //   MaterialPageRoute(builder: (context) => choosing_page()),
+                    // );
                   } else {
                     otpController.clear();
                     Navigator.of(context, rootNavigator: true).pop();

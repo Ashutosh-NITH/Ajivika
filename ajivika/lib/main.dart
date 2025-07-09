@@ -1,5 +1,6 @@
 import 'package:ajivika/Profilepage/ProfilePage.dart';
 import 'package:ajivika/Profilepage/ProfilePageProvider.dart';
+import 'package:ajivika/database/remoteDB/profileDB.dart';
 import 'package:ajivika/languagepage/language_page_provider.dart';
 import 'package:ajivika/loginpage/loginpage_provider.dart';
 import 'package:ajivika/splash_screen/splash_screen.dart';
@@ -43,7 +44,7 @@ class MyApp extends StatelessWidget {
   static final ISLOGGEDKEY = "islogggedin";
   static final USERPHONEKEY = "UserPhoneNumber";
   static final USERNAMEKEY = "UserName";
-  static final USER_PROFESSION_KEY = "UserPro";
+  static final USER_PROFESSION_KEY = "UserProfession";
   final String MyLang;
   final String MyCountry;
   MyApp({required this.MyLang, required this.MyCountry});
