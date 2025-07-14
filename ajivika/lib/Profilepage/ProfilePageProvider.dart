@@ -1,4 +1,3 @@
-import 'package:ajivika/database/remoteDB/profileDB.dart';
 import 'package:ajivika/main.dart';
 import 'package:ajivika/splash_screen/splash_screen.dart';
 import 'package:flutter/cupertino.dart';

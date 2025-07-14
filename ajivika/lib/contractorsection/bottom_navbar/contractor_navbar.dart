@@ -1,19 +1,21 @@
 import 'package:ajivika/Profilepage/ProfilePage.dart';
-import 'package:ajivika/workersection/WorkerSection.dart';
+import 'package:ajivika/contractorsection/Homepage/contractor_homepage.dart';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import '../Homepage/homepage.dart';
 
-class worker_bottom_navbar extends StatefulWidget {
+import '../ContractorSection.dart';
+
+class contractor_bottom_navbar extends StatefulWidget {
   @override
-  State<worker_bottom_navbar> createState() => _bottom_navbarState();
+  State<contractor_bottom_navbar> createState() => _bottom_navbarState();
 }
 
 int selected_index = 0;
 PageController pageController = PageController();
 
-class _bottom_navbarState extends State<worker_bottom_navbar> {
+class _bottom_navbarState extends State<contractor_bottom_navbar> {
   void changepage(int index) {
     setState(() {
       selected_index = index;
@@ -26,7 +28,7 @@ class _bottom_navbarState extends State<worker_bottom_navbar> {
     return Scaffold(
       body: PageView(
         controller: pageController,
-        children: [homepage(), WorkerSection(), ProfilePage()],
+        children: [ContractorHomepage(), ContractorSection(), ProfilePage()],
       ),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[

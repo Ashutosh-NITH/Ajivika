@@ -198,10 +198,6 @@ class _OTP_PageState extends State<OTP_Page> {
                   if (check) {
                     context.read<PhoneNoProvider>().finalisenumber();
                     context.read<PhoneNoProvider>().CheckProfile(context);
-                    // Navigator.pushReplacement(
-                    //   (context),
-                    //   MaterialPageRoute(builder: (context) => choosing_page()),
-                    // );
                   } else {
                     otpController.clear();
                     Navigator.of(context, rootNavigator: true).pop();

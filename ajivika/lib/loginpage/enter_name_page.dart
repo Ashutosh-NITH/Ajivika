@@ -3,9 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import '../languagepage/language_page.dart';
-import '../workersection/bottom_navbar/bottom_navbar.dart';
 import 'loginpage_provider.dart';
 
 class EnterNamePage extends StatelessWidget {
@@ -151,13 +149,7 @@ class EnterNamePage extends StatelessWidget {
               onPressed: () async {
                 if (context.read<NamePageProvider>().checkstring()) {
                   context.read<NamePageProvider>().finalisename();
-                  context.read<NamePageProvider>().SaveProfile();
-                  Navigator.pushReplacement(
-                    (context),
-                    MaterialPageRoute(
-                      builder: (context) => worker_bottom_navbar(),
-                    ),
-                  );
+                  context.read<NamePageProvider>().SaveProfile(context);
                 } else {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(content: Text("Please Enter Your Name".tr)),

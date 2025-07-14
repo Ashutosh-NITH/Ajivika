@@ -1,11 +1,11 @@
 import 'dart:async';
+import 'package:ajivika/contractorsection/bottom_navbar/contractor_navbar.dart';
 import 'package:ajivika/loginpage/Phone_Number_page.dart';
 import 'package:ajivika/loginpage/choosing_page.dart';
 import 'package:ajivika/main.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import '../workersection/bottom_navbar/bottom_navbar.dart';
 
 class splash_screen extends StatefulWidget {
@@ -40,14 +40,24 @@ class _splash_screenState extends State<splash_screen> {
     final pref = await SharedPreferences.getInstance();
     var checklogging = pref.getBool(MyApp.ISLOGGEDKEY);
     var checkverified = pref.getBool(MyApp.ISVERIFIEDKEY);
+    var checkprofession = pref.getString(MyApp.USER_PROFESSION_KEY);
     if (checkverified != null) {
       if (checkverified) {
         if (checklogging != null) {
           if (checklogging) {
-            Navigator.push(
-              (context),
-              MaterialPageRoute(builder: (context) => worker_bottom_navbar()),
-            );
+            if (checkprofession == 'Worker') {
+              Navigator.push(
+                (context),
+                MaterialPageRoute(builder: (context) => worker_bottom_navbar()),
+              );
+            } else {
+              Navigator.push(
+                (context),
+                MaterialPageRoute(
+                  builder: (context) => contractor_bottom_navbar(),
+                ),
+              );
+            }
           } else {
             Navigator.push(
               (context),

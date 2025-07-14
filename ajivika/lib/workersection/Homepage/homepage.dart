@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:ajivika/Profilepage/ProfilePageProvider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
@@ -8,6 +9,7 @@ import 'package:latlong2/latlong.dart';
 import 'package:provider/provider.dart';
 import '../../database/remoteDB/jobdataDB.dart';
 import '../../languagepage/language_page.dart';
+import 'applyforjob.dart';
 import 'homepage_provider.dart';
 
 class homepage extends StatefulWidget {
@@ -19,120 +21,6 @@ class _homepageState extends State<homepage> {
   double currlat = 25.61;
 
   double currlong = 85.15;
-
-  Future<void> onselectedPin(Map<String, dynamic> marker) async {
-    context.read<HomepageProvider>().getPlaceName(
-      marker['lat'],
-      marker['long'],
-    );
-    context.read<HomepageProvider>().selectcurrpin(marker);
-    showModalBottomSheet(
-      context: (context),
-      builder: (context) {
-        return SingleChildScrollView(
-          scrollDirection: Axis.vertical,
-          child: Container(
-            width: double.infinity,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: Text(
-                    "Job Description".tr,
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-                  ),
-                ),
-                Text(
-                  "Address :".tr,
-                  style: TextStyle(fontWeight: FontWeight.w400, fontSize: 20),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 10.0, right: 10.0),
-                  child: Text(
-                    context.watch<HomepageProvider>().placename,
-                    style: TextStyle(fontSize: 15),
-                  ),
-                ),
-                Text(
-                  "Detail :".tr,
-                  style: TextStyle(fontWeight: FontWeight.w400, fontSize: 20),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 10.0, right: 10.0),
-                  child: Text(marker["desc"], style: TextStyle(fontSize: 15)),
-                ),
-                Text(
-                  "Posted by :".tr,
-                  style: TextStyle(fontWeight: FontWeight.w400, fontSize: 20),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 10.0, right: 10.0),
-                  child: Text(
-                    marker["postedby"],
-                    style: TextStyle(fontSize: 15),
-                  ),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Card(
-                      elevation: 5,
-                      color: Colors.amberAccent,
-                      child: Padding(
-                        padding: const EdgeInsets.all(20.0),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            Text("Wage :"),
-                            Text("${marker["wage"]}"),
-                            Text("per day"),
-                          ],
-                        ),
-                      ),
-                    ),
-                    Card(
-                      elevation: 5,
-                      color: Colors.lightGreen,
-                      child: Padding(
-                        padding: const EdgeInsets.all(20.0),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            Text("No of Workers required :"),
-                            Text("${marker["nol"]}"),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                Container(
-                  margin: EdgeInsets.only(left: 30.0, right: 30.0),
-                  child: ElevatedButton(
-                    onPressed: () {},
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Color(0xff2667FF),
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          "Apply for this",
-                          style: TextStyle(color: Colors.white),
-                        ),
-                        Icon(Icons.send_rounded, color: Colors.white),
-                      ],
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        );
-      },
-    );
-  }
 
   List<Map<String, dynamic>> AllJobs = [];
   @override
@@ -151,6 +39,8 @@ class _homepageState extends State<homepage> {
 
   @override
   Widget build(BuildContext context) {
+    context.read<HomepageProvider>().getworkersdata();
+    context.read<HomepageProvider>().FetchAllAppliedJobs();
     return Consumer<HomepageProvider>(
       builder: (ctx, provider, __) {
         return Scaffold(
@@ -241,8 +131,7 @@ class _homepageState extends State<homepage> {
                   children: [
                     TileLayer(
                       urlTemplate:
-                          "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-                      subdomains: ['a', 'b', 'c'],
+                          "https://api.maptiler.com/maps/basic-v2/{z}/{x}/{y}.png?key=akmleE6JVaxjmodDaG0K",
                     ),
                     MarkerLayer(
                       markers: AllJobs.map((markers) {
@@ -251,8 +140,8 @@ class _homepageState extends State<homepage> {
                           width: 80,
                           point: LatLng(markers['lat'], markers['long']),
                           child: GestureDetector(
-                            onTap: () {
-                              onselectedPin(markers);
+                            onTap: () async {
+                              await onselectedPin(markers, ctx);
                             },
                             child: Icon(
                               Icons.pin_drop,

@@ -1,3 +1,4 @@
+import 'package:ajivika/contractorsection/bottom_navbar/contractor_navbar.dart';
 import 'package:ajivika/workersection/bottom_navbar/bottom_navbar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -63,7 +64,10 @@ class PhoneNoProvider extends ChangeNotifier {
           MaterialPageRoute(builder: (context) => worker_bottom_navbar()),
         );
       } else {
-        print("Contracter");
+        Navigator.pushReplacement(
+          (context),
+          MaterialPageRoute(builder: (context) => contractor_bottom_navbar()),
+        );
       }
     }
   }
@@ -118,21 +122,32 @@ class NamePageProvider extends ChangeNotifier {
     }
   }
 
-  Future<void> SaveProfile() async {
+  Future<void> SaveProfile(BuildContext context) async {
     var pref = await SharedPreferences.getInstance();
-    final name = await pref.get(MyApp.USERNAMEKEY);
-    final phone = await pref.get(MyApp.USERPHONEKEY);
-    final profession = await pref.get(MyApp.USER_PROFESSION_KEY);
+    final name = await pref.getString(MyApp.USERNAMEKEY);
+    final phone = await pref.getString(MyApp.USERPHONEKEY);
+    final profession = await pref.getString(MyApp.USER_PROFESSION_KEY);
     final supabase = Supabase.instance.client;
     final response = await supabase.from('profiles').insert({
       'fullname': name,
       'phone': phone,
       'profession': profession,
-    });
-    if (response.error != null) {
-      print('Insert Error: ${response.error!.message}');
+    }).select();
+    if (response.isEmpty) {
+      print('Insert Error: ${response}');
     } else {
-      print('Insert Success: ${response.data}');
+      print('Insert Success: ${response}');
+      if (profession == 'Worker') {
+        Navigator.pushReplacement(
+          (context),
+          MaterialPageRoute(builder: (context) => worker_bottom_navbar()),
+        );
+      } else {
+        Navigator.pushReplacement(
+          (context),
+          MaterialPageRoute(builder: (context) => contractor_bottom_navbar()),
+        );
+      }
     }
   }
 }

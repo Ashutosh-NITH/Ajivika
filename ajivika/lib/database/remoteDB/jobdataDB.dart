@@ -5,7 +5,10 @@ class JobDB {
 
   Future<List<Map<String, dynamic>>> fetchalljobs() async {
     print("fetch all jobs fn called");
-    final response = await Supabase.instance.client.from('job_posts').select();
+    final response = await Supabase.instance.client
+        .from('job_posts')
+        .select()
+        .eq('status', 'active');
     if (response.isNotEmpty) {
       print("response is not empty : $response");
       return response;
