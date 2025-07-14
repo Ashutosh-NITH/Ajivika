@@ -118,6 +118,73 @@ class ViewDetailsProvider extends ChangeNotifier {
     }
     notifyListeners();
   }
+
+  Map<String, dynamic> _selected_job_post = {};
+  Map<String, dynamic> get selected_job_post => _selected_job_post;
+
+  String _phone = '';
+  String get phone => _phone;
+  String _name = '';
+  String get name => _name;
+
+  Future<void> initiliseuserdata() async {
+    final pref = await SharedPreferences.getInstance();
+    _phone = pref.getString(MyApp.USERPHONEKEY)!;
+    _name = pref.getString(MyApp.USERNAMEKEY)!;
+  }
+
+  Future<bool> getcurrentjobpost(int jobid) async {
+    await initiliseuserdata();
+    final supabase = await Supabase.instance.client;
+    final response = await supabase
+        .from('job_posts')
+        .select()
+        .eq('id', jobid)
+        .single();
+    if (response.isNotEmpty) {
+      print("response is not empty : $response");
+      _selected_job_post = response;
+      notifyListeners();
+      return true;
+    } else {
+      print("response is  empty : $response");
+      return false;
+    }
+  }
 }
 
-class ContractorSectionProvider extends ChangeNotifier {}
+class ContractorSectionProvider extends ChangeNotifier {
+  List<Map<String, dynamic>> _All_job_posts_history = [];
+  List<Map<String, dynamic>> get All_job_posts_history =>
+      _All_job_posts_history;
+
+  String _phone = '';
+  String get phone => _phone;
+  String _name = '';
+  String get name => _name;
+
+  Future<void> initiliseuserdata() async {
+    final pref = await SharedPreferences.getInstance();
+    _phone = pref.getString(MyApp.USERPHONEKEY)!;
+    _name = pref.getString(MyApp.USERNAMEKEY)!;
+  }
+
+  Future<void> getAlljobs() async {
+    await initiliseuserdata();
+    final supabase = await Supabase.instance.client;
+    final response = await supabase
+        .from('job_posts')
+        .select()
+        .eq('contractor_phone', _phone)
+        .order('date_posted', ascending: false);
+    if (response.isNotEmpty) {
+      print(
+        "response is not empty from contractor section in view details page : $response",
+      );
+      _All_job_posts_history = response;
+      notifyListeners();
+    } else {
+      print("response is  empty : $response");
+    }
+  }
+}

@@ -188,7 +188,8 @@ class _ContractorHomepageState extends State<ContractorHomepage> {
                       Navigator.push(
                         (context),
                         MaterialPageRoute(
-                          builder: (context) => ViewDetails(detail: detail),
+                          builder: (context) =>
+                              ViewDetails(jobid: detail['id']),
                         ),
                       );
                       // do something

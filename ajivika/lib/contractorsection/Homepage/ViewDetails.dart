@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class ViewDetails extends StatefulWidget {
-  final Map<String, dynamic> detail;
-  ViewDetails({required this.detail});
+  int jobid;
+  ViewDetails({required this.jobid});
 
   @override
   State<ViewDetails> createState() => _ViewDetailsState();
@@ -13,7 +13,8 @@ class ViewDetails extends StatefulWidget {
 class _ViewDetailsState extends State<ViewDetails> {
   @override
   void initState() {
-    context.read<ViewDetailsProvider>().getallyourworkers(widget.detail['id']);
+    context.read<ViewDetailsProvider>().getallyourworkers(widget.jobid);
+    context.read<ViewDetailsProvider>().getcurrentjobpost(widget.jobid);
   }
 
   @override
@@ -46,6 +47,29 @@ class _ViewDetailsState extends State<ViewDetails> {
                   ),
                 ),
 
+                //original nol
+                Row(
+                  children: [
+                    Text(
+                      "Total Workers required : ",
+                      style: TextStyle(
+                        fontFamily: "Poppins",
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.grey.shade700,
+                      ),
+                    ),
+                    Text(
+                      "${provider.selected_job_post['original_nol']}",
+                      style: TextStyle(
+                        fontFamily: "Poppins",
+                        fontSize: 12,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ],
+                ),
+
                 //nol
                 Row(
                   children: [
@@ -59,7 +83,7 @@ class _ViewDetailsState extends State<ViewDetails> {
                       ),
                     ),
                     Text(
-                      "${widget.detail['nol']}",
+                      "${provider.selected_job_post['nol']}",
                       style: TextStyle(
                         fontFamily: "Poppins",
                         fontSize: 12,
@@ -82,7 +106,7 @@ class _ViewDetailsState extends State<ViewDetails> {
                       ),
                     ),
                     Text(
-                      "${widget.detail['wage']}",
+                      "${provider.selected_job_post['wage']}",
                       style: TextStyle(
                         fontFamily: "Poppins",
                         fontSize: 12,
@@ -94,6 +118,7 @@ class _ViewDetailsState extends State<ViewDetails> {
 
                 //address
                 Row(
+                  mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
                       "Address : ",
@@ -104,12 +129,16 @@ class _ViewDetailsState extends State<ViewDetails> {
                         color: Colors.grey.shade700,
                       ),
                     ),
-                    Text(
-                      "dont forget to implement it ",
-                      style: TextStyle(
-                        fontFamily: "Poppins",
-                        fontSize: 12,
-                        fontWeight: FontWeight.w500,
+
+                    //to stop overflow
+                    Expanded(
+                      child: Text(
+                        "${provider.selected_job_post['address']}",
+                        style: TextStyle(
+                          fontFamily: "Poppins",
+                          fontSize: 12,
+                          fontWeight: FontWeight.w500,
+                        ),
                       ),
                     ),
                   ],
@@ -128,7 +157,7 @@ class _ViewDetailsState extends State<ViewDetails> {
                       ),
                     ),
                     Text(
-                      "${widget.detail['dateposted']}",
+                      "${provider.selected_job_post['date_posted']}",
                       style: TextStyle(
                         fontFamily: "Poppins",
                         fontSize: 12,
@@ -140,6 +169,7 @@ class _ViewDetailsState extends State<ViewDetails> {
 
                 //desc
                 Row(
+                  mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
                       "Description : ",
@@ -150,12 +180,15 @@ class _ViewDetailsState extends State<ViewDetails> {
                         color: Colors.grey.shade700,
                       ),
                     ),
-                    Text(
-                      "${widget.detail['desc']}",
-                      style: TextStyle(
-                        fontFamily: "Poppins",
-                        fontSize: 12,
-                        fontWeight: FontWeight.w500,
+                    //to stop overflow
+                    Expanded(
+                      child: Text(
+                        "${provider.selected_job_post['desc']}",
+                        style: TextStyle(
+                          fontFamily: "Poppins",
+                          fontSize: 12,
+                          fontWeight: FontWeight.w500,
+                        ),
                       ),
                     ),
                   ],
@@ -173,8 +206,6 @@ class _ViewDetailsState extends State<ViewDetails> {
                   ),
                 ),
 
-                Text("${provider.AllYourWorkers}"),
-
                 SizedBox(height: 20),
 
                 Expanded(
@@ -191,9 +222,10 @@ class _ViewDetailsState extends State<ViewDetails> {
                             fontSize: 18,
                           ),
                         ),
-                        trailing: Row(
+                        subtitle: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
+                            Icon(Icons.phone, color: Color(0xff2667FF)),
                             Text(
                               "${provider.AllYourWorkers[index]['worker_phone']}",
                               style: TextStyle(
@@ -203,7 +235,6 @@ class _ViewDetailsState extends State<ViewDetails> {
                                 fontSize: 18,
                               ),
                             ),
-                            Icon(Icons.phone),
                           ],
                         ),
                       );
