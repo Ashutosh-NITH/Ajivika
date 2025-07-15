@@ -13,9 +13,12 @@ class ProfilePageProvider extends ChangeNotifier {
   String _name = "";
   String _profession = "";
   String _phone = "";
+  String _city = "";
   String get name => _name;
   String get profession => _profession;
   String get phone => _phone;
+
+  String get city => _city;
 
   String _imageurl = '';
   String get imageurl => _imageurl;
@@ -32,8 +35,10 @@ class ProfilePageProvider extends ChangeNotifier {
     if (response != null) {
       pref.setString(MyApp.USERNAMEKEY, response['fullname']);
       pref.setString(MyApp.USER_PROFESSION_KEY, response['profession']);
+      pref.setString(MyApp.USER_CITY, response['city']);
       _name = pref.getString(MyApp.USERNAMEKEY)!;
       _profession = pref.getString(MyApp.USER_PROFESSION_KEY)!;
+      _city = pref.getString(MyApp.USER_CITY)!;
     } else {
       print(
         "error while accesing user profiles data from supabase => $response",
@@ -105,6 +110,13 @@ class ProfilePageProvider extends ChangeNotifier {
           },
         )
         .toString();
+
+    await supabase
+        .from('profiles')
+        .update({'avatar_url': _imageurl})
+        .eq('phone', _phone)
+        .select();
+
     notifyListeners();
   }
 
@@ -130,7 +142,11 @@ class ProfilePageProvider extends ChangeNotifier {
     final response = await supabase.storage.from('profiles-avatars').remove([
       imagepath,
     ]); //  takes a list of paths
-
+    await supabase
+        .from('profiles')
+        .update({'avatar_url': _imageurl})
+        .eq('phone', Null)
+        .select();
     if (response.isEmpty) {
       print("Image deleted successfully. $response");
       _imageurl = '';

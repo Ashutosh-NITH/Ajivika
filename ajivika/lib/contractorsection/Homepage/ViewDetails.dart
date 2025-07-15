@@ -1,4 +1,5 @@
 import 'package:ajivika/contractorsection/contractor_provider.dart';
+import 'package:ajivika/utility.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -13,8 +14,11 @@ class ViewDetails extends StatefulWidget {
 class _ViewDetailsState extends State<ViewDetails> {
   @override
   void initState() {
-    context.read<ViewDetailsProvider>().getallyourworkers(widget.jobid);
-    context.read<ViewDetailsProvider>().getcurrentjobpost(widget.jobid);
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<ViewDetailsProvider>().getallyourworkers(widget.jobid);
+      context.read<ViewDetailsProvider>().getcurrentjobpost(widget.jobid);
+    });
   }
 
   @override
@@ -157,7 +161,7 @@ class _ViewDetailsState extends State<ViewDetails> {
                       ),
                     ),
                     Text(
-                      "${provider.selected_job_post['date_posted']}",
+                      "${formatdate(provider.selected_job_post['date_posted'])}",
                       style: TextStyle(
                         fontFamily: "Poppins",
                         fontSize: 12,
@@ -212,9 +216,22 @@ class _ViewDetailsState extends State<ViewDetails> {
                   child: ListView.separated(
                     itemBuilder: (context, index) {
                       return ListTile(
-                        leading: CircleAvatar(),
+                        leading:
+                            provider.AllYourWorkers[index]['profiles']['avatar_url'] ==
+                                null
+                            ? CircleAvatar(
+                                backgroundImage: AssetImage(
+                                  "assets/images/user.png",
+                                ),
+                              )
+                            : CircleAvatar(
+                                backgroundImage: NetworkImage(
+                                  provider
+                                      .AllYourWorkers[index]['profiles']['avatar_url'],
+                                ),
+                              ),
                         title: Text(
-                          "${provider.AllYourWorkers[index]['worker_name']}",
+                          "${provider.AllYourWorkers[index]['profiles']['fullname']}",
                           style: TextStyle(
                             fontFamily: "Poppins",
                             fontWeight: FontWeight.w700,
@@ -222,20 +239,28 @@ class _ViewDetailsState extends State<ViewDetails> {
                             fontSize: 18,
                           ),
                         ),
-                        subtitle: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Icon(Icons.phone, color: Color(0xff2667FF)),
-                            Text(
-                              "${provider.AllYourWorkers[index]['worker_phone']}",
-                              style: TextStyle(
-                                fontFamily: "Poppins",
-                                fontWeight: FontWeight.w700,
-                                color: Colors.grey.shade700,
-                                fontSize: 18,
+                        subtitle: GestureDetector(
+                          onTap: () async {
+                            await makeCall(
+                              provider
+                                  .AllYourWorkers[index]['profiles']['phone'],
+                            );
+                          },
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Icon(Icons.phone, color: Color(0xff2667FF)),
+                              Text(
+                                "${provider.AllYourWorkers[index]['profiles']['phone']}",
+                                style: TextStyle(
+                                  fontFamily: "Poppins",
+                                  fontWeight: FontWeight.w700,
+                                  color: Colors.grey.shade700,
+                                  fontSize: 18,
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       );
                     },

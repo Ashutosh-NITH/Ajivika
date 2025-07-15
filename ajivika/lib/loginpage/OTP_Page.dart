@@ -2,6 +2,7 @@ import 'package:ajivika/loginpage/AuthenticationPage.dart';
 import 'package:ajivika/loginpage/Phone_Number_page.dart';
 import 'package:ajivika/loginpage/loginpage_provider.dart';
 import 'package:ajivika/main.dart';
+import 'package:ajivika/utility.dart';
 import 'package:ajivika/workersection/bottom_navbar/bottom_navbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -42,6 +43,7 @@ class _OTP_PageState extends State<OTP_Page> {
                 InkWell(
                   onTap: () {
                     // perform action => get help => customer care
+                    callHelpline();
                   },
                   child: Row(
                     children: [

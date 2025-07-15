@@ -2,6 +2,7 @@ import 'package:ajivika/loginpage/AuthenticationPage.dart';
 import 'package:ajivika/loginpage/OTP_Page.dart';
 import 'package:ajivika/loginpage/choosing_page.dart';
 import 'package:ajivika/loginpage/loginpage_provider.dart';
+import 'package:ajivika/utility.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -27,6 +28,7 @@ class Phone_Number_Page extends StatelessWidget {
                 InkWell(
                   onTap: () {
                     // perform action => get help => customer care
+                    callHelpline();
                   },
                   child: Row(
                     children: [

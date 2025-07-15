@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:ajivika/Profilepage/ProfilePageProvider.dart';
+import 'package:ajivika/utility.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
@@ -13,15 +14,14 @@ import 'applyforjob.dart';
 import 'homepage_provider.dart';
 
 class homepage extends StatefulWidget {
+  final double currlat;
+  final double currlong;
+  homepage({required this.currlat, required this.currlong});
   @override
   State<homepage> createState() => _homepageState();
 }
 
 class _homepageState extends State<homepage> {
-  double currlat = 25.61;
-
-  double currlong = 85.15;
-
   List<Map<String, dynamic>> AllJobs = [];
   @override
   void initState() {
@@ -57,6 +57,7 @@ class _homepageState extends State<homepage> {
                     InkWell(
                       onTap: () {
                         // perform action => get help => customer care
+                        callHelpline();
                       },
                       child: Row(
                         children: [
@@ -122,7 +123,7 @@ class _homepageState extends State<homepage> {
                 child: FlutterMap(
                   mapController: provider.mapController,
                   options: MapOptions(
-                    initialCenter: LatLng(currlat, currlong),
+                    initialCenter: LatLng(widget.currlat, widget.currlong),
                     initialZoom: 10,
                     onTap: (tapPosition, point) {
                       provider.selectcurrpin(null);

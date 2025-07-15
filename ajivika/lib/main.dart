@@ -12,6 +12,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'languagepage/localeString.dart';
+import 'loginpage/enter_name_page.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -53,6 +54,9 @@ class MyApp extends StatelessWidget {
   static final USERPHONEKEY = "UserPhoneNumber";
   static final USERNAMEKEY = "UserName";
   static final USER_PROFESSION_KEY = "UserProfession";
+  static final USER_CITY = 'UserCity';
+  static final USER_LATITUDE = 'UserCityLatitude';
+  static final USER_LONGITUDE = 'UserCityLongitude';
   final String MyLang;
   final String MyCountry;
   MyApp({required this.MyLang, required this.MyCountry});

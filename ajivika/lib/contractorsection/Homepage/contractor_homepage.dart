@@ -1,6 +1,7 @@
 import 'package:ajivika/contractorsection/Homepage/AddJob.dart';
 import 'package:ajivika/contractorsection/Homepage/ViewDetails.dart';
 import 'package:ajivika/contractorsection/contractor_provider.dart';
+import 'package:ajivika/utility.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -12,32 +13,32 @@ import 'package:provider/provider.dart';
 import '../../languagepage/language_page.dart';
 
 class ContractorHomepage extends StatefulWidget {
+  double currlat;
+
+  double currlong;
+  ContractorHomepage({required this.currlat, required this.currlong});
   @override
   State<ContractorHomepage> createState() => _ContractorHomepageState();
 }
 
-// List<Map<String, dynamic>> _alljobmarkers = [];
-
 class _ContractorHomepageState extends State<ContractorHomepage> {
   @override
   void initState() {
-    WidgetsFlutterBinding.ensureInitialized();
     super.initState();
-    setupmap();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      setupmap();
+    });
   }
 
   String? MapboxAccessToken;
 
-  void setupmap() async {
+  Future<void> setupmap() async {
     await dotenv.load(fileName: '.env');
     MapboxAccessToken = dotenv.env['MAPBOX_ACCESS_TOKEN']!;
     MapboxOptions.setAccessToken(MapboxAccessToken!);
     context.read<ContractorHomepageProvider>().getinitialjobs();
   }
 
-  double currlat = 25.61;
-
-  double currlong = 85.15;
   MapboxMap? _mapboxController;
   PointAnnotationManager? _annotationManager;
 
@@ -57,6 +58,7 @@ class _ContractorHomepageState extends State<ContractorHomepage> {
                 InkWell(
                   onTap: () {
                     // perform action => get help => customer care
+                    callHelpline();
                   },
                   child: Row(
                     children: [
@@ -124,7 +126,9 @@ class _ContractorHomepageState extends State<ContractorHomepage> {
                 _mapboxController = controller;
                 await _mapboxController?.setCamera(
                   CameraOptions(
-                    center: Point(coordinates: Position(currlong, currlat)),
+                    center: Point(
+                      coordinates: Position(widget.currlong, widget.currlat),
+                    ),
                     zoom: 10,
                   ),
                 );

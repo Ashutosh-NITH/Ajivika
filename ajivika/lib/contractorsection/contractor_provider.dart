@@ -107,11 +107,11 @@ class ViewDetailsProvider extends ChangeNotifier {
     final supabase = await Supabase.instance.client;
     final List<Map<String, dynamic>> response = await supabase
         .from('apply_for_job')
-        .select()
+        .select('profiles(*)')
         .eq('job_id', jobid);
     if (response.isNotEmpty) {
       _AllYourWorkers = response;
-      print("fetched");
+      print("fetched $response");
     } else {
       print("no one applied yet");
       _AllYourWorkers = [];

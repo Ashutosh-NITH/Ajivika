@@ -38,9 +38,12 @@ class _splash_screenState extends State<splash_screen> {
 
   Future<void> wheretogo() async {
     final pref = await SharedPreferences.getInstance();
-    var checklogging = pref.getBool(MyApp.ISLOGGEDKEY);
-    var checkverified = pref.getBool(MyApp.ISVERIFIEDKEY);
-    var checkprofession = pref.getString(MyApp.USER_PROFESSION_KEY);
+    final checklogging = pref.getBool(MyApp.ISLOGGEDKEY);
+    final checkverified = pref.getBool(MyApp.ISVERIFIEDKEY);
+    final checkprofession = pref.getString(MyApp.USER_PROFESSION_KEY);
+    final city = await pref.getString(MyApp.USER_CITY);
+    final lat = await pref.getDouble(MyApp.USER_LATITUDE);
+    final long = await pref.getDouble(MyApp.USER_LONGITUDE);
     if (checkverified != null) {
       if (checkverified) {
         if (checklogging != null) {
@@ -48,13 +51,17 @@ class _splash_screenState extends State<splash_screen> {
             if (checkprofession == 'Worker') {
               Navigator.push(
                 (context),
-                MaterialPageRoute(builder: (context) => worker_bottom_navbar()),
+                MaterialPageRoute(
+                  builder: (context) =>
+                      worker_bottom_navbar(currlat: lat!, currlong: long!),
+                ),
               );
             } else {
               Navigator.push(
                 (context),
                 MaterialPageRoute(
-                  builder: (context) => contractor_bottom_navbar(),
+                  builder: (context) =>
+                      contractor_bottom_navbar(currlat: lat!, currlong: long!),
                 ),
               );
             }

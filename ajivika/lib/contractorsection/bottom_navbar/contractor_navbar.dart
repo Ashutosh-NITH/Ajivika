@@ -8,6 +8,10 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../ContractorSection.dart';
 
 class contractor_bottom_navbar extends StatefulWidget {
+  double currlat;
+
+  double currlong;
+  contractor_bottom_navbar({required this.currlat, required this.currlong});
   @override
   State<contractor_bottom_navbar> createState() => _bottom_navbarState();
 }
@@ -28,7 +32,14 @@ class _bottom_navbarState extends State<contractor_bottom_navbar> {
     return Scaffold(
       body: PageView(
         controller: pageController,
-        children: [ContractorHomepage(), ContractorSection(), ProfilePage()],
+        children: [
+          ContractorHomepage(
+            currlat: widget.currlat,
+            currlong: widget.currlong,
+          ),
+          ContractorSection(),
+          ProfilePage(),
+        ],
       ),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
