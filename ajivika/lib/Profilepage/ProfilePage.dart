@@ -125,7 +125,8 @@ class _ProfilePageState extends State<ProfilePage> {
                                 builder: (context) {
                                   return AlertDialog(
                                     content: Text(
-                                      "Are  you sure you want to delete your profile image",
+                                      "Are  you sure you want to delete your profile image"
+                                          .tr,
                                     ),
                                     actions: [
                                       OutlinedButton(
@@ -302,7 +303,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                 provider.profession,
                                 style: TextStyle(
                                   fontFamily: "Poppins",
-                                  fontSize: 18,
+                                  fontSize: 15,
                                   fontWeight: FontWeight.w600,
                                 ),
                               ),
@@ -311,10 +312,10 @@ class _ProfilePageState extends State<ProfilePage> {
                                   callHelpline();
                                 },
                                 child: Text(
-                                  "request change",
+                                  "request change".tr,
                                   style: TextStyle(
                                     fontFamily: "Poppins",
-                                    fontSize: 15,
+                                    fontSize: 12,
                                     fontWeight: FontWeight.w600,
                                     color: Colors.redAccent,
                                   ),
@@ -347,7 +348,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                 provider.city,
                                 style: TextStyle(
                                   fontFamily: "Poppins",
-                                  fontSize: 18,
+                                  fontSize: 15,
                                   fontWeight: FontWeight.w600,
                                 ),
                               ),
@@ -356,10 +357,10 @@ class _ProfilePageState extends State<ProfilePage> {
                                   callHelpline();
                                 },
                                 child: Text(
-                                  "request change",
+                                  "request change".tr,
                                   style: TextStyle(
                                     fontFamily: "Poppins",
-                                    fontSize: 15,
+                                    fontSize: 10,
                                     fontWeight: FontWeight.w600,
                                     color: Colors.redAccent,
                                   ),
@@ -383,7 +384,8 @@ class _ProfilePageState extends State<ProfilePage> {
                       builder: (context) {
                         return AlertDialog(
                           content: Text(
-                            "Are you sure you want to log out ? It will remove your data from this device , but you can acccess it again using your phone number !",
+                            "Are you sure you want to log out ? It will remove your data from this device , but you can acccess it again using your phone number !"
+                                .tr,
                           ),
                           actions: [
                             OutlinedButton(
@@ -391,7 +393,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                 provider.LogOut(context);
                               },
                               child: Text(
-                                "Yes",
+                                "Yes".tr,
                                 style: TextStyle(color: Colors.redAccent),
                               ),
                             ),
@@ -407,7 +409,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     );
                   },
                   child: Text(
-                    "Log Out",
+                    "Log Out".tr,
                     style: TextStyle(
                       fontFamily: "Poppins",
                       fontSize: 15,

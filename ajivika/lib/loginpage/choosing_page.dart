@@ -10,8 +10,8 @@ import 'package:provider/provider.dart';
 import 'loginpage_provider.dart';
 
 class choosing_page extends StatelessWidget {
-  final CONTRACTOR = "Contractor".tr;
-  final WORKER = "Worker".tr;
+  final CONTRACTOR = "Contractor";
+  final WORKER = "Worker";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -141,7 +141,7 @@ class choosing_page extends StatelessWidget {
                     onPressed: () {
                       if (provider.selected_profession.isNotEmpty) {
                         provider.finaliseprofession();
-                        Navigator.pushReplacement(
+                        Navigator.push(
                           (context),
                           MaterialPageRoute(
                             builder: (context) => EnterNamePage(),

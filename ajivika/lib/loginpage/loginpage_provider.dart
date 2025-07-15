@@ -120,8 +120,16 @@ class NamePageProvider extends ChangeNotifier {
   double get lat => _lat!;
   double get long => _long!;
   String get city => _city;
-  set lat(double value) => _lat = value;
-  set long(double value) => _long = value;
+  set lat(double value) {
+    _lat = value;
+    notifyListeners();
+  }
+
+  set long(double value) {
+    _long = value;
+    notifyListeners();
+  }
+
   set city(String value) => _city = value;
 
   void setname(String name) {

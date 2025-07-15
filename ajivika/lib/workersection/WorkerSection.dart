@@ -29,9 +29,11 @@ class _WorkerSectionState extends State<WorkerSection> {
               Container(
                 color: Colors.white,
                 width: double.infinity,
-                child: Text(
-                  "All your applied history".tr,
-                  style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+                child: Center(
+                  child: Text(
+                    "All your applied history".tr,
+                    style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+                  ),
                 ),
               ),
               Container(color: Colors.white, height: 20),

@@ -1,6 +1,5 @@
 import 'package:ajivika/utility.dart';
 import 'package:dropdown_search/dropdown_search.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
@@ -127,7 +126,7 @@ class EnterNamePage extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.only(left: 20.0),
                   child: Text(
-                    "Please enter your".tr,
+                    'name page heading line 1'.tr,
                     style: TextStyle(
                       fontSize: 25,
                       fontWeight: FontWeight.bold,
@@ -143,7 +142,7 @@ class EnterNamePage extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.only(left: 20.0),
                   child: Text(
-                    "name and city".tr,
+                    'name page heading line 2'.tr,
                     style: TextStyle(
                       fontSize: 25,
                       fontWeight: FontWeight.bold,
@@ -213,8 +212,8 @@ class EnterNamePage extends StatelessWidget {
 
                         decoratorProps: DropDownDecoratorProps(
                           decoration: InputDecoration(
-                            label: Text("Enter City"),
-                            hintText: "Enter City",
+                            label: Text("Enter City".tr),
+                            hintText: "Enter City".tr,
                             enabledBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(20),
                               borderSide: BorderSide(color: Color(0xff2667FF)),
@@ -229,8 +228,8 @@ class EnterNamePage extends StatelessWidget {
                           showSearchBox: true,
                           searchFieldProps: TextFieldProps(
                             decoration: InputDecoration(
-                              label: Text("Search City"),
-                              hintText: "Enter City",
+                              label: Text("Search City".tr),
+                              hintText: "Enter City".tr,
                               enabledBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(20),
                                 borderSide: BorderSide(
@@ -275,13 +274,14 @@ class EnterNamePage extends StatelessWidget {
                       provider.SaveProfile(context);
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text("Please Enter Your Name".tr)),
+                        SnackBar(
+                          content: Text("Please Enter Your Name and place".tr),
+                        ),
                       );
                     }
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor:
-                        context.watch<NamePageProvider>().checkstring()
+                    backgroundColor: provider.checkstring()
                         ? Color(0xff2667FF)
                         : Color(0xff87BFFF),
                   ),

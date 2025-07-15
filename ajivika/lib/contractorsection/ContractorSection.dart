@@ -1,5 +1,6 @@
 import 'package:ajivika/contractorsection/Homepage/ViewDetails.dart';
 import 'package:ajivika/contractorsection/contractor_provider.dart';
+import 'package:ajivika/utility.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -29,9 +30,11 @@ class _ContractorSectionState extends State<ContractorSection> {
               Container(
                 color: Colors.white,
                 width: double.infinity,
-                child: Text(
-                  "All your History".tr,
-                  style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+                child: Container(
+                  child: Text(
+                    "All your History".tr,
+                    style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+                  ),
                 ),
               ),
               Container(color: Colors.white, height: 20),
@@ -190,10 +193,10 @@ class _ContractorSectionState extends State<ContractorSection> {
                                           ),
                                         ),
                                         Text(
-                                          "",
+                                          "${formatdate(provider.All_job_posts_history[index]['date_posted'])}",
                                           style: TextStyle(
                                             fontFamily: 'Poppins',
-                                            fontSize: 14,
+                                            fontSize: 10,
                                             fontWeight: FontWeight.w700,
                                             color: Colors.grey,
                                           ),
@@ -232,7 +235,7 @@ class _ContractorSectionState extends State<ContractorSection> {
                                       ),
                                     );
                                   },
-                                  child: Text("View Details"),
+                                  child: Text("View Details".tr),
                                 ),
                               ],
                             ),
@@ -244,7 +247,7 @@ class _ContractorSectionState extends State<ContractorSection> {
                         itemCount: provider.All_job_posts_history.length,
                       ),
                     )
-                  : Text("You have posted no jobs yet "),
+                  : Text("You have posted no jobs yet".tr),
             ],
           ),
         );
